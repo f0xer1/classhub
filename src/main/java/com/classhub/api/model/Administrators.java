@@ -1,4 +1,4 @@
-package com.classhub.model;
+package com.classhub.api.model;
 
 import jakarta.persistence.*;
 
