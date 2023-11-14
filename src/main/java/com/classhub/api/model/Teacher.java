@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "administrators")
-public class Administrators {
+@Table(name = "Teachers")
+public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -29,5 +29,7 @@ public class Administrators {
 
     @Column(name = "pwd")
     private String pwd;
+
+
 
 }
