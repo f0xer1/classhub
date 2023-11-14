@@ -1,14 +1,15 @@
 package com.classhub.api.model;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "Students")
-public class Students {
+@Table(name = "administrators")
+public class Administrator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -29,9 +30,4 @@ public class Students {
     @Column(name = "pwd")
     private String pwd;
 
-    @Column(name = "cluster")
-    private String cluster;
-
-    @Column(name = "faculty")
-    private String faculty;
 }
