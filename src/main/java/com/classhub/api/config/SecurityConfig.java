@@ -1,4 +1,4 @@
-package com.classhub.config;
+package com.classhub.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
