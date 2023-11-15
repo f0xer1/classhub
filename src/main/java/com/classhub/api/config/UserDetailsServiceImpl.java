@@ -1,7 +1,6 @@
 package com.classhub.api.config;
 
 import com.classhub.api.exeption.UserNotFoundException;
-import com.classhub.api.model.user.User;
 import com.classhub.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User with username %s not found".formatted(username)));
 
-        return new UserDetailsImpl((User) user);
+        return new UserDetailsImpl(user);
     }
 }
