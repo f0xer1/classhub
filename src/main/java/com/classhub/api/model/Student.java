@@ -3,13 +3,14 @@ package com.classhub.api.model;
 import com.classhub.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "Students")
-
+@RequiredArgsConstructor
 public class Student {
     @Id
     @JoinColumn(name = "id")
@@ -33,4 +34,7 @@ public class Student {
 
     @Column(name = "faculty")
     private String faculty;
+    public Student(Long id) {
+        this.id= id;
+    }
 }
