@@ -1,36 +1,25 @@
 package com.classhub.api.config;
 
-import com.classhub.api.model.Administrator;
-import com.classhub.api.model.Student;
-import com.classhub.api.model.Teacher;
+import com.classhub.api.model.User;
 import org.springframework.security.core.GrantedAuthority;
+
+
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class UserDetailsImpl<T> implements UserDetails {
+
+public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(T user) {
-        if (user instanceof Student) {
-            this.username = ((Student) user).getUsername();
-            this.password = ((Student) user).getPwd();
-            this.authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_STUDENT"));
-        } else if (user instanceof Teacher) {
-            this.username = ((Teacher) user).getUsername();
-            this.password = ((Teacher) user).getPwd();
-            this.authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_TEACHER"));
-        } else if (user instanceof Administrator) {
-            this.username = ((Administrator) user).getUsername();
-            this.password = ((Administrator) user).getPwd();
-            this.authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        } else {
-            throw new IllegalArgumentException("Unsupported user type");
-        }
+    public UserDetailsImpl(User user) {
+            this.username = user.getUsername();
+            this.password = user.getPwd();
+        this.authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
     }
 
     @Override
