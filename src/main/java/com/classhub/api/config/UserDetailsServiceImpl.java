@@ -1,7 +1,7 @@
 package com.classhub.api.config;
 
 import com.classhub.api.exeption.UserNotFoundException;
-import com.classhub.api.model.User;
+import com.classhub.api.model.user.User;
 import com.classhub.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
