@@ -2,9 +2,10 @@ package com.classhub.api.repository;
 
 import com.classhub.api.model.Administrator;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 
+@Repository
 public interface AdministratorsRepository extends JpaRepository<Administrator,Long> {
-   Optional<Object> findByUsername(String username);
+
 }
