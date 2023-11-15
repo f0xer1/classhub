@@ -9,11 +9,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "administrators")
-public class Administrator {
+public class Administrator  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @JoinColumn(name = "id")
     private Long id;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private User user;
 
     @Column(name = "first_name")
     private String first_name;
@@ -24,10 +27,6 @@ public class Administrator {
     @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "username", unique = true)
-    private String username;
 
-    @Column(name = "pwd")
-    private String pwd;
 
 }
