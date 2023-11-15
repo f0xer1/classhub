@@ -19,7 +19,7 @@ import static org.springframework.util.StringUtils.hasText;
 @RequiredArgsConstructor
 @Component
 public class JWTFilter extends OncePerRequestFilter {
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private final JWTTokenProvider jwtProvider;
 
 
