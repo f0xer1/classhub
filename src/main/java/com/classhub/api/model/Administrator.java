@@ -1,14 +1,17 @@
 package com.classhub.api.model;
 
+import com.classhub.api.model.user.User;
 import jakarta.persistence.*;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "administrators")
+@RequiredArgsConstructor
 public class Administrator  {
     @Id
     @JoinColumn(name = "id")
@@ -28,5 +31,7 @@ public class Administrator  {
     private String patronymic;
 
 
-
+    public Administrator(Long id) {
+        this.id= id;
+    }
 }
