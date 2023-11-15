@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/user").hasRole("ADMINISTRATOR")
+                        .requestMatchers("/auth/create-user").hasRole("ADMINISTRATOR")
                         .anyRequest().permitAll())
                  .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
         return http.build();

@@ -10,10 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -24,13 +21,22 @@ public class AuthController {
     private final JWTTokenMapper jwtTokenMapper;
     @PostMapping("/sign-up")
     public ResponseEntity<UserDto> signUpForAdmin(@RequestBody @Valid UserCreationDto userDto) {
-        var newUser = userService.signUpForAdmin(userMapper.toUser(userDto));
+        var newUser = userMapper.toUser(userDto);
+        newUser.setRole("admin");
+        userService.signUpForUser(newUser);
         return new ResponseEntity<>(userMapper.toUserDTO(newUser), HttpStatus.CREATED);
     }
     @PostMapping("/sign-in")
-  public ResponseEntity<JWTToken> signIn(@RequestBody @Valid UserCreationDto userDto) {
+    public ResponseEntity<JWTToken> signIn(@RequestBody @Valid UserCreationDto userDto) {
         return ResponseEntity.of(userService
                 .signIn(userDto.getUsername(), userDto.getPwd())
                .map(jwtTokenMapper::toPayload));
    }
+
+    @PostMapping("/create-user")
+    public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserCreationDto userDto) {
+        var newUser = userService.signUpForUser(userMapper.toUser(userDto));
+        return new ResponseEntity<>(userMapper.toUserDTO(newUser), HttpStatus.CREATED);
+    }
+
 }
