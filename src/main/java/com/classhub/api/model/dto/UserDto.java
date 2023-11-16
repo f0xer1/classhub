@@ -1,4 +1,4 @@
-package com.classhub.api.model.user;
+package com.classhub.api.model.dto;
 
 import lombok.Data;
 
