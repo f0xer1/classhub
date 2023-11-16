@@ -1,6 +1,5 @@
 package com.classhub.api.model;
 
-import com.classhub.api.model.user.User;
 import jakarta.persistence.*;
 
 import lombok.Getter;
