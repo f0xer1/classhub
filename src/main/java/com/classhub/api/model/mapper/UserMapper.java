@@ -1,9 +1,9 @@
 package com.classhub.api.model.mapper;
 
 
-import com.classhub.api.model.user.User;
-import com.classhub.api.model.user.UserCreationDto;
-import com.classhub.api.model.user.UserDto;
+import com.classhub.api.model.User;
+import com.classhub.api.model.dto.UserCreationDto;
+import com.classhub.api.model.dto.UserDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

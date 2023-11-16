@@ -2,17 +2,22 @@ package com.classhub.api.service.impl;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.classhub.api.config.JWTTokenProvider;
-import com.classhub.api.exeption.InvalidPasswordException;
-import com.classhub.api.exeption.RoleNotFoundException;
-import com.classhub.api.exeption.UserAlreadyExistsException;
-import com.classhub.api.exeption.UserNotFoundException;
-import com.classhub.api.model.user.User;
+import com.classhub.api.exeption.*;
+import com.classhub.api.model.Administrator;
+import com.classhub.api.model.mapper.StudentMapper;
+import com.classhub.api.model.mapper.TeacherMapper;
+import com.classhub.api.model.Student;
+import com.classhub.api.model.Teacher;
+import com.classhub.api.model.mapper.AdministratorMapper;
+import com.classhub.api.model.User;
 import com.classhub.api.repository.UserRepository;
 import com.classhub.api.service.AdministratorService;
 import com.classhub.api.service.StudentService;
 import com.classhub.api.service.TeacherService;
 import com.classhub.api.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +32,9 @@ public class UserServiceImpl implements UserService {
     private final AdministratorService administratorService;
     private final StudentService studentService;
     private final TeacherService teacherService;
+    private  final AdministratorMapper administratorMapper;
+    private  final StudentMapper studentMapper;
+    private  final TeacherMapper teacherMapper;
 
 
     public User signUpForAdmin(User user) {
@@ -66,6 +74,30 @@ public class UserServiceImpl implements UserService {
             case "admin"  -> signUpForAdmin(user);
             default -> throw new RoleNotFoundException("Invalid %s role".formatted(role));
         };
+    }
+
+
+    @Override
+    public ResponseEntity<Object> getInfoByUsername(String username) {
+        var user = userRepository.findByUsername(username).orElseThrow(
+                () -> new UserNotFoundException("User with username %s not found".formatted(username))
+        );
+        switch (user.getRole()) {
+            case "ROLE_STUDENT":
+                Student student = studentService.getStudentById(user.getId())
+                        .orElseThrow(() -> new StudentNotFoundException("Student not found"));
+                return new ResponseEntity<>(studentMapper.toStudentDTO(student) , HttpStatus.OK);
+            case "ROLE_TEACHER":
+                Teacher teacher = teacherService.getTeacherById(user.getId())
+                        .orElseThrow(() -> new TeacherNotFoundException("Teacher not found"));
+                return new ResponseEntity<>(teacherMapper.toTeacherDto(teacher) , HttpStatus.OK);
+            case "ROLE_ADMINISTRATOR":
+                Administrator administrator = administratorService.getAdminById(user.getId())
+                        .orElseThrow(() -> new AdministratorNotFoundException("Administrator not found"));
+                return new ResponseEntity<>(administratorMapper.toAdministratorDTO(administrator), HttpStatus.OK);
+            default:
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
