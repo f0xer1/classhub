@@ -2,8 +2,8 @@ package com.classhub.api.controller;
 
 import com.classhub.api.controller.auth.JWTToken;
 import com.classhub.api.model.mapper.JWTTokenMapper;
-import com.classhub.api.model.user.UserCreationDto;
-import com.classhub.api.model.user.UserDto;
+import com.classhub.api.model.dto.UserCreationDto;
+import com.classhub.api.model.dto.UserDto;
 import com.classhub.api.model.mapper.UserMapper;
 import com.classhub.api.service.UserService;
 import jakarta.validation.Valid;
