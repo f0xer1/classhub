@@ -12,13 +12,15 @@ import java.util.Collections;
 
 
 public class UserDetailsImpl implements UserDetails {
+    private final Long id;
     private final String username;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(User user) {
-            this.username = user.getUsername();
-            this.password = user.getPwd();
+    public UserDetailsImpl( User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPwd();
         this.authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
     }
 
@@ -36,7 +38,9 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return username;
     }
-
+    public Long getId() {
+        return id;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -56,4 +60,6 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
