@@ -1,10 +1,14 @@
 package com.classhub.api.model.users;
 
+import com.classhub.api.model.subjects.TeachingSubject;
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,6 +36,6 @@ public class Teacher  {
         this.id= id;
     }
 
-
-
+    @ManyToMany(mappedBy = "teachers")
+    private Set<TeachingSubject> voting = new LinkedHashSet<>();
 }
