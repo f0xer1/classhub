@@ -13,5 +13,5 @@ public interface TeacherService {
 
     Teacher getTeacherByUsername(String username);
 
-    String editTeacher(TeacherDto teacherDto);
+   ResponseEntity<String>  editTeacher(TeacherDto teacherDto);
 }

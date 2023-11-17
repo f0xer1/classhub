@@ -12,5 +12,5 @@ public interface AdministratorService {
     Optional<Administrator> getAdminById(Long id);
     Administrator getAdminByUsername(String username);
 
-    String editAdmin(AdministratorDto administratorDto);
+    ResponseEntity<String> editAdmin(AdministratorDto administratorDto);
 }

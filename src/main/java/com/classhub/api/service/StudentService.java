@@ -12,5 +12,5 @@ public interface StudentService {
 
     Student getStudentByUsername(String username);
 
-    String editStudent(StudentDto studentDto);
+   ResponseEntity<String>  editStudent(StudentDto studentDto);
 }

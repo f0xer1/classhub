@@ -47,18 +47,18 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public String editTeacher(TeacherDto teacherDto) {
+    public ResponseEntity<String>  editTeacher(TeacherDto teacherDto) {
         try {
             Teacher existingTeacher = getTeacherByUsername(teacherDto.getUsername());
             Teacher updatedTeacher = teacherMapper.updateTeacherFromDTO(teacherDto, existingTeacher);
             teachersRepository.save(updatedTeacher);
-            return "Success";
+            return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (UserNotFoundException e) {
-            return "User not found: " + e.getMessage();
+            return new ResponseEntity<>("User not found: " + e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ChangeException e) {
-            return "Change error: " + e.getMessage();
+            return new ResponseEntity<>("Change error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return "An error occurred while processing the request";
+            return new ResponseEntity<>("An error occurred while processing the request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

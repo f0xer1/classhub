@@ -25,26 +25,25 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or #username == principal.username")
     public ResponseEntity<Object> getUserSettings(@PathVariable String username) {
         return userService.getInfoByUsername(username);
-
     }
 
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') and #administratorDto.username == principal.username")
     @PostMapping("/editAdmin")
     public ResponseEntity<String> editAdmin(@RequestBody AdministratorDto administratorDto){
-        return new ResponseEntity<>(administratorService.editAdmin(administratorDto), HttpStatus.OK);
+        return  administratorService.editAdmin(administratorDto);
     }
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or #studentDto.username == principal.username")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
     @PostMapping("/editStudent")
     public ResponseEntity<String> editStudent(@RequestBody StudentDto studentDto) {
 
-        return new ResponseEntity<>(studentService.editStudent(studentDto), HttpStatus.OK);
+        return studentService.editStudent(studentDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or #teacherDto.username == principal.username")
 
     @PostMapping("/editTeacher")
     public ResponseEntity<String> editAdmin(@RequestBody TeacherDto teacherDto){
-        return new ResponseEntity<>(teacherService.editTeacher(teacherDto), HttpStatus.OK);
+        return teacherService.editTeacher(teacherDto);
     }
 }

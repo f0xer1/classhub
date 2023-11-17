@@ -48,19 +48,19 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    public String editAdmin(AdministratorDto administratorDto) {
+    public ResponseEntity<String>  editAdmin(AdministratorDto administratorDto) {
         try {
             Administrator existingAdministrator = getAdminByUsername(administratorDto.getUsername());
             Administrator updatedAdministrator = administratorMapper.updateAdministratorFromDTO(administratorDto,
                     existingAdministrator);
             administratorsRepository.save(updatedAdministrator);
-            return "Success";
+            return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (UserNotFoundException e) {
-            return "User not found: " + e.getMessage();
+            return new ResponseEntity<>("User not found: " + e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ChangeException e) {
-            return "Change error: " + e.getMessage();
+            return new ResponseEntity<>("Change error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return "An error occurred while processing the request";
+            return new ResponseEntity<>("An error occurred while processing the request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

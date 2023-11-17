@@ -48,18 +48,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public String editStudent(StudentDto studentDto) {
+    public ResponseEntity<String>  editStudent(StudentDto studentDto) {
         try {
             Student existingStudent = getStudentByUsername(studentDto.getUsername());
             Student updatedStudent = studentMapper.updateStudentFromDTO(studentDto, existingStudent);
             studentsRepository.save(updatedStudent);
-            return "Success";
+            return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (UserNotFoundException e) {
-            return "User not found: " + e.getMessage();
+            return new ResponseEntity<>("User not found: " + e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ChangeException e) {
-            return "Change error: " + e.getMessage();
+            return new ResponseEntity<>("Change error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return "An error occurred while processing the request";
+            return new ResponseEntity<>("An error occurred while processing the request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
