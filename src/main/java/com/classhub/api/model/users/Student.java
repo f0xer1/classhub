@@ -1,7 +1,6 @@
-package com.classhub.api.model;
+package com.classhub.api.model.users;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -9,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "Teachers")
+@Table(name = "Students")
 @RequiredArgsConstructor
-public class Teacher  {
+public class Student {
     @Id
     @JoinColumn(name = "id")
     private Long id;
@@ -19,7 +18,6 @@ public class Teacher  {
     @OneToOne
     @PrimaryKeyJoinColumn
     private User user;
-
     @Column(name = "first_name")
     private String first_name;
 
@@ -28,10 +26,14 @@ public class Teacher  {
 
     @Column(name = "patronymic")
     private String patronymic;
-    public Teacher(Long id) {
+
+
+    @Column(name = "cluster")
+    private String cluster;
+
+    @Column(name = "faculty")
+    private String faculty;
+    public Student(Long id) {
         this.id= id;
     }
-
-
-
 }

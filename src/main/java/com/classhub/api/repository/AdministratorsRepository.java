@@ -1,6 +1,6 @@
 package com.classhub.api.repository;
 
-import com.classhub.api.model.Administrator;
+import com.classhub.api.model.users.Administrator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

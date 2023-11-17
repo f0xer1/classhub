@@ -1,6 +1,6 @@
 package com.classhub.api.service;
 
-import com.classhub.api.model.Student;
+import com.classhub.api.model.users.Student;
 import com.classhub.api.model.dto.StudentDto;
 import org.springframework.http.ResponseEntity;
 

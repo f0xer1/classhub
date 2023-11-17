@@ -1,6 +1,6 @@
 package com.classhub.api.service;
 
-import com.classhub.api.model.Administrator;
+import com.classhub.api.model.users.Administrator;
 import com.classhub.api.model.dto.AdministratorDto;
 import org.springframework.http.ResponseEntity;
 

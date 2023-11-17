@@ -1,7 +1,7 @@
 package com.classhub.api.model.mapper;
 
 
-import com.classhub.api.model.Teacher;
+import com.classhub.api.model.users.Teacher;
 import com.classhub.api.model.dto.TeacherDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

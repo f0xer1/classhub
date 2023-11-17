@@ -1,4 +1,4 @@
-package com.classhub.api.model;
+package com.classhub.api.model.users;
 
 import jakarta.persistence.*;
 import lombok.Getter;

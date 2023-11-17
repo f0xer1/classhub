@@ -1,6 +1,6 @@
 package com.classhub.api.config;
 
-import com.classhub.api.model.User;
+import com.classhub.api.model.users.User;
 import org.springframework.security.core.GrantedAuthority;
 
 

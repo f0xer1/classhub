@@ -2,7 +2,7 @@ package com.classhub.api.service.impl;
 
 import com.classhub.api.exeption.ChangeException;
 import com.classhub.api.exeption.UserNotFoundException;
-import com.classhub.api.model.Administrator;
+import com.classhub.api.model.users.Administrator;
 import com.classhub.api.model.dto.AdministratorDto;
 import com.classhub.api.model.mapper.AdministratorMapper;
 import com.classhub.api.repository.AdministratorsRepository;

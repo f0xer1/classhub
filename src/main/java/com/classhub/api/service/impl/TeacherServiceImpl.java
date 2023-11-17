@@ -3,7 +3,7 @@ package com.classhub.api.service.impl;
 import com.classhub.api.exeption.ChangeException;
 import com.classhub.api.exeption.UserNotFoundException;
 import com.classhub.api.model.mapper.TeacherMapper;
-import com.classhub.api.model.Teacher;
+import com.classhub.api.model.users.Teacher;
 import com.classhub.api.model.dto.TeacherDto;
 import com.classhub.api.repository.TeachersRepository;
 import com.classhub.api.repository.UserRepository;

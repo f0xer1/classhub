@@ -1,6 +1,6 @@
 package com.classhub.api.repository;
 
-import com.classhub.api.model.Student;
+import com.classhub.api.model.users.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
