@@ -1,5 +1,6 @@
 package com.classhub.api.controller;
 
+import com.classhub.api.model.dto.TeachingSubjectDto;
 import com.classhub.api.model.subjects.Subject;
 import com.classhub.api.model.subjects.TeachingPeriod;
 import com.classhub.api.model.subjects.TeachingSubject;
@@ -42,8 +43,8 @@ public class SubjectController {
     }
 
     @PostMapping("/addTeachingSubjects")
-    public ResponseEntity<TeachingSubject> addTeachingSubject(@RequestBody TeachingSubject teachingSubject){
-        return new ResponseEntity<>(teachingSubjectService.addTeachingSubject(teachingSubject), HttpStatus.CREATED);
+    public ResponseEntity<TeachingSubject> addTeachingSubject(@RequestBody TeachingSubjectDto teachingSubjectDto){
+        return new ResponseEntity<>(teachingSubjectService.addTeachingSubject(teachingSubjectDto), HttpStatus.CREATED);
     }
 
 }

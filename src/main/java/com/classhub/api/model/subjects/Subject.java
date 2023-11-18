@@ -17,7 +17,7 @@ public class Subject {
     private Long id;
     @Column(name = "description")
     private String description;
-    @Column(name = "name", unique = true)
+    @Column(name = "name", unique = true,nullable = false)
     private String name;
 
 }

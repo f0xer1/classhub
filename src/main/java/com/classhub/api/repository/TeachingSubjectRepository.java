@@ -7,8 +7,13 @@ import com.classhub.api.model.subjects.TeachingSubject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TeachingSubjectRepository extends JpaRepository<TeachingSubject, Long> {
-    boolean existsBySubjectAndTeachingPeriod(Subject subject, TeachingPeriod teachingPeriod);
+    boolean existsBySubjectAndTeachingPeriod(Optional<Subject> subject, Optional<TeachingPeriod> teachingPeriod);
+
+
+
 
 }
