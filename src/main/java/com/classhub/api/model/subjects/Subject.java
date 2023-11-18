@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "subgects")
+@Table(name = "subjects")
 @RequiredArgsConstructor
 public class Subject {
     @Id
@@ -17,7 +17,7 @@ public class Subject {
     private Long id;
     @Column(name = "description")
     private String description;
-    @Column(name = "name")
+    @Column(name = "name", unique = true,nullable = false)
     private String name;
 
 }
