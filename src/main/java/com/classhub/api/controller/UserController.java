@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping(path = "/user")
 @RequiredArgsConstructor
@@ -33,7 +34,7 @@ public class UserController {
     public ResponseEntity<String> editAdmin(@RequestBody AdministratorDto administratorDto){
         return  administratorService.editAdmin(administratorDto);
     }
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PostMapping("/editStudent")
     public ResponseEntity<String> editStudent(@RequestBody StudentDto studentDto) {
 
@@ -41,6 +42,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or #teacherDto.username == principal.username")
+
 
     @PostMapping("/editTeacher")
     public ResponseEntity<String> editAdmin(@RequestBody TeacherDto teacherDto){

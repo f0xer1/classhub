@@ -7,7 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "teaching_periods")
+@Table(name = "teaching_periods", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"year", "semester"})
+})
 public class TeachingPeriod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
