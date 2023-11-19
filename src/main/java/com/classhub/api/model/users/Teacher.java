@@ -1,6 +1,7 @@
 package com.classhub.api.model.users;
 
 import com.classhub.api.model.subjects.TeachingSubject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -37,5 +38,6 @@ public class Teacher  {
     }
 
     @ManyToMany(mappedBy = "teachers")
+    @JsonIgnore
     private Set<TeachingSubject> voting = new LinkedHashSet<>();
 }

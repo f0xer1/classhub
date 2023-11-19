@@ -1,5 +1,6 @@
 package com.classhub.api.controller;
 
+import com.classhub.api.model.dto.TeacherSubjectDto;
 import com.classhub.api.model.dto.TeachingSubjectDto;
 import com.classhub.api.model.subjects.Subject;
 import com.classhub.api.model.subjects.TeachingPeriod;
@@ -7,6 +8,7 @@ import com.classhub.api.model.subjects.TeachingSubject;
 import com.classhub.api.service.SubjectService;
 import com.classhub.api.service.TeachingPeriodService;
 import com.classhub.api.service.TeachingSubjectService;
+import com.classhub.api.service.TeachingSubjectsTeachersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ public class SubjectController {
     private final SubjectService subjectService;
     private final TeachingPeriodService teachingPeriodService;
     private final TeachingSubjectService teachingSubjectService;
+    private final TeachingSubjectsTeachersService teachingSubjectsTeachersService;
 
     @PostMapping("/addSubject")
     public ResponseEntity<Subject> addSubject(@RequestBody Subject subject) {
@@ -49,5 +52,9 @@ public class SubjectController {
     @GetMapping("/allTeachingSubjects")
     public ResponseEntity<List<TeachingSubject>> allTeachingSubject(){
         return new ResponseEntity<>(teachingSubjectService.getAllTeachingSubject(), HttpStatus.OK);
+    }
+    @PostMapping("/addTeacherForSubject")
+    public ResponseEntity<String> addTeacherToSubject(@RequestBody TeacherSubjectDto teacherSubjectDto){
+        return teachingSubjectsTeachersService.add(teacherSubjectDto.getTeacherId(),teacherSubjectDto.getSubjectId());
     }
 }

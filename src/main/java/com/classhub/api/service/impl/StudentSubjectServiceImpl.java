@@ -2,6 +2,7 @@ package com.classhub.api.service.impl;
 
 import com.classhub.api.model.dto.StudentSubjectDto;
 import com.classhub.api.model.links.StudentSubject;
+import com.classhub.api.model.users.Student;
 import com.classhub.api.repository.StudentSubjectRepository;
 import com.classhub.api.service.StudentService;
 import com.classhub.api.service.StudentSubjectService;
@@ -26,7 +27,8 @@ public class StudentSubjectServiceImpl implements StudentSubjectService {
 
     @Override
     public List<StudentSubject> getStudentSubjectForStudent(Long studentId) {
-        return subjectRepository.findAllByStudent(studentService.findById(studentId).get());
+        Student student = studentService.findById(studentId).get();
+        return subjectRepository.findAllByStudent(student);
     }
 
     public StudentSubject mapToStudentSubject(StudentSubjectDto studentSubjectDto) {
