@@ -29,8 +29,8 @@ public class TaskController {
         return new ResponseEntity<>(taskService.addTask(taskDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("getForSubject")
-    public ResponseEntity<List<Task>> getForSubject(@RequestParam Long id) {
+    @GetMapping("getForSubject/{id}")
+    public ResponseEntity<List<Task>> getForSubject( @PathVariable Long id) {
         return new ResponseEntity<>(taskService.findBySubject(id), HttpStatus.OK);
     }
 
@@ -41,9 +41,9 @@ public class TaskController {
         return new ResponseEntity<>(studentGradeService.addGrade(studentGradeDto), HttpStatus.OK);
     }
 
-    @GetMapping("getGradesForStudent")
-    public ResponseEntity<List<StudentGrade>> getGradesForStudent(@RequestParam Long studentId) {
-        return new ResponseEntity<>(studentGradeService.getGradesForStudent(studentId), HttpStatus.OK);
+    @GetMapping("getGradesForStudent/{id}")
+    public ResponseEntity<List<StudentGrade>> getGradesForStudent(@PathVariable Long id) {
+        return new ResponseEntity<>(studentGradeService.getGradesForStudent(id), HttpStatus.OK);
     }
 
 
@@ -51,8 +51,8 @@ public class TaskController {
     public  ResponseEntity<String> addStudentSubject(@RequestBody StudentSubjectDto studentSubjectDto){
         return new ResponseEntity<>(studentSubjectService.addStudentSubject(studentSubjectDto), HttpStatus.OK);
     }
-    @GetMapping("getGradesForStudentSubject")
-    public ResponseEntity<List<StudentSubject>> getStudentSubjectForStudent(@RequestParam Long studentId) {
-        return new ResponseEntity<>(studentSubjectService.getStudentSubjectForStudent(studentId), HttpStatus.OK);
+    @GetMapping("getStudentSubjectForStudent/{id}")
+    public ResponseEntity<List<StudentSubject>> getStudentSubjectForStudent(@PathVariable Long id) {
+        return new ResponseEntity<>(studentSubjectService.getStudentSubjectForStudent(id), HttpStatus.OK);
     }
 }

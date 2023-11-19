@@ -46,5 +46,8 @@ public class SubjectController {
     public ResponseEntity<TeachingSubject> addTeachingSubject(@RequestBody TeachingSubjectDto teachingSubjectDto){
         return new ResponseEntity<>(teachingSubjectService.addTeachingSubject(teachingSubjectDto), HttpStatus.CREATED);
     }
-
+    @GetMapping("/allTeachingSubjects")
+    public ResponseEntity<List<TeachingSubject>> allTeachingSubject(){
+        return new ResponseEntity<>(teachingSubjectService.getAllTeachingSubject(), HttpStatus.OK);
+    }
 }
