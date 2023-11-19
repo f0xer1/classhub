@@ -10,6 +10,8 @@ import com.classhub.api.service.TeachingSubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TeachingSubjectServiceImpl implements TeachingSubjectService {
@@ -28,5 +30,10 @@ public class TeachingSubjectServiceImpl implements TeachingSubjectService {
                 teachingPeriodRepository.findById(teachingSubjectDto.getSubjectId()
         ));
         return  teachingSubjectRepository.save(teachingSubject);
+    }
+
+    @Override
+    public Optional<TeachingSubject> findById(Long id) {
+        return teachingSubjectRepository.findById(id);
     }
 }
