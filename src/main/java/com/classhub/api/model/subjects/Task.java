@@ -22,6 +22,6 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "teaching_subject_id")
-    private TeachingSubject teaching_subject;
+    private TeachingSubject teachingSubject;
 
 }
