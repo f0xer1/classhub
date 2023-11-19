@@ -13,4 +13,6 @@ public interface StudentService {
     Student getStudentByUsername(String username);
 
    ResponseEntity<String>  editStudent(StudentDto studentDto);
+
+    Optional<Student> findById(Long studentId);
 }

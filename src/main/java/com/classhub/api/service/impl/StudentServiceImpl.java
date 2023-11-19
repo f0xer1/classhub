@@ -63,5 +63,10 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+    @Override
+    public Optional<Student> findById(Long studentId) {
+        return studentsRepository.findById(studentId);
+    }
+
 }
 
