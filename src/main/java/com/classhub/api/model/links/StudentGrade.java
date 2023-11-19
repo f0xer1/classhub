@@ -17,6 +17,8 @@ public class StudentGrade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(name = "grade")
+    private int grade;
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;

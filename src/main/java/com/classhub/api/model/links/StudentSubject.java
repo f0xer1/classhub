@@ -21,7 +21,7 @@ public class StudentSubject {
 
     @ManyToOne
     @JoinColumn(name = "teaching_subject_id")
-    private TeachingSubject teaching_subject;
+    private TeachingSubject teachingSubject;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
