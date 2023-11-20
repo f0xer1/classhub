@@ -19,7 +19,7 @@ public class AuthController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final JWTTokenMapper jwtTokenMapper;
-    @PostMapping("/sign-up")
+    @PostMapping("/admin-sign-up")
     public ResponseEntity<UserDto> signUpForAdmin(@RequestBody @Valid UserCreationDto userDto) {
         var newUser = userMapper.toUser(userDto);
         newUser.setRole("admin");
@@ -33,7 +33,7 @@ public class AuthController {
                .map(jwtTokenMapper::toPayload));
    }
 
-    @PostMapping("/create-user")
+    @PostMapping("/admin-sign-user")
     public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserCreationDto userDto) {
         var newUser = userService.signUpForUser(userMapper.toUser(userDto));
         return new ResponseEntity<>(userMapper.toUserDTO(newUser), HttpStatus.CREATED);
