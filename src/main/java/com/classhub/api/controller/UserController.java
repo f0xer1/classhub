@@ -8,14 +8,13 @@ import com.classhub.api.service.StudentService;
 import com.classhub.api.service.TeacherService;
 import com.classhub.api.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(path = "/user")
+@RequestMapping(path = "/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -27,25 +26,21 @@ public class UserController {
     public ResponseEntity<Object> getUserSettings(@PathVariable String username) {
         return userService.getInfoByUsername(username);
     }
-
-
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') and #administratorDto.username == principal.username")
-    @PostMapping("/editAdmin")
-    public ResponseEntity<String> editAdmin(@RequestBody AdministratorDto administratorDto){
+    @PutMapping("/admins/{username}")
+    public ResponseEntity<String> editAdmin(@PathVariable String username, @RequestBody AdministratorDto administratorDto) {//пофіксити метод
         return  administratorService.editAdmin(administratorDto);
     }
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @PostMapping("/editStudent")
-    public ResponseEntity<String> editStudent(@RequestBody StudentDto studentDto) {
+    @PutMapping("/students/{username}")
+    public ResponseEntity<String> editStudent(@PathVariable String username, @RequestBody StudentDto studentDto) {//пофіксити метод
 
         return studentService.editStudent(studentDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or #teacherDto.username == principal.username")
-
-
-    @PostMapping("/editTeacher")
-    public ResponseEntity<String> editAdmin(@RequestBody TeacherDto teacherDto){
+    @PutMapping("/teachers/{username}")
+    public ResponseEntity<String> editTeacher(@PathVariable String username, @RequestBody TeacherDto teacherDto) {//пофіксити метод
         return teacherService.editTeacher(teacherDto);
     }
 }
