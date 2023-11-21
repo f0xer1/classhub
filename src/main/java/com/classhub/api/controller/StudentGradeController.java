@@ -1,7 +1,8 @@
 package com.classhub.api.controller;
 
-import com.classhub.api.model.dto.StudentGradeDto;
-import com.classhub.api.model.links.StudentGrade;
+import com.classhub.api.model.dto.StudentGrade.StudentGradeCreationDto;
+import com.classhub.api.model.dto.StudentGrade.StudentGradeDto;
+import com.classhub.api.model.mapper.StudentGradeMapper;
 import com.classhub.api.service.StudentGradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,14 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentGradeController {
     private final StudentGradeService studentGradeService;
+    private final StudentGradeMapper studentGradeMapper;
+
     @PostMapping("add")
-    public ResponseEntity<String> addGrades(@RequestBody StudentGradeDto studentGradeDto) {
-        return new ResponseEntity<>(studentGradeService.addGrade(studentGradeDto), HttpStatus.OK);
+    public ResponseEntity<StudentGradeDto> addGrades(@RequestBody StudentGradeCreationDto studentGradeCreationDto) {
+        var grade = studentGradeService.addGrade(studentGradeMapper.toStudentGrade(studentGradeCreationDto));
+        return new ResponseEntity<>(studentGradeMapper.toStudentGradeDto(grade), HttpStatus.CREATED);
     }
 
-    @GetMapping("/grades/student/{id}")
-    public ResponseEntity<List<StudentGrade>> getGradesForStudent(@PathVariable Long id) {
-        return new ResponseEntity<>(studentGradeService.getGradesForStudent(id), HttpStatus.OK);
+    @GetMapping("/student/{id}")
+    public ResponseEntity<List<StudentGradeDto>> getGradesForStudent(@PathVariable Long id) {
+        return new ResponseEntity<>(studentGradeMapper.toStudentGradeDtoList( studentGradeService.getGradesForStudent(id)), HttpStatus.OK);
     }
 
 

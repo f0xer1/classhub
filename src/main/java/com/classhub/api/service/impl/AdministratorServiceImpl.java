@@ -1,16 +1,14 @@
 package com.classhub.api.service.impl;
 
+import com.classhub.api.exeption.AdministratorNotFoundException;
 import com.classhub.api.exeption.ChangeException;
 import com.classhub.api.exeption.UserNotFoundException;
 import com.classhub.api.model.users.Administrator;
-import com.classhub.api.model.dto.AdministratorDto;
-import com.classhub.api.model.mapper.AdministratorMapper;
 import com.classhub.api.repository.AdministratorsRepository;
 import com.classhub.api.repository.UserRepository;
 import com.classhub.api.service.AdministratorService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,17 +17,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdministratorServiceImpl implements AdministratorService {
     private final AdministratorsRepository administratorsRepository;
-    private final AdministratorMapper administratorMapper;
     private final UserRepository userRepository;
 
     @Override
-    public ResponseEntity<String> createAdmin(Long id) {
-        try {
-            administratorsRepository.save(new Administrator(id));
-        } catch (Exception e) {
-            return new ResponseEntity<>("failed", HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("success", HttpStatus.CREATED);
+    public void createAdmin(Long id) {
+          administratorsRepository.save(new Administrator(id));
     }
 
     @Override
@@ -39,29 +31,27 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public Administrator getAdminByUsername(String username) {
-        Long id =userRepository.findByUsername(username).get().getId();
-        if (!administratorsRepository.existsById(id)) {
-            throw new UserNotFoundException(
-                    "User with username %s not found".formatted(username));
-        }
-        return administratorsRepository.findById(id).get();
+        return userRepository.findByUsername(username)
+                .flatMap(user -> administratorsRepository.findById(user.getId()))
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User with username %s not found", username)));
     }
 
     @Override
-    public ResponseEntity<String>  editAdmin(AdministratorDto administratorDto) {
-        try {
-            Administrator existingAdministrator = getAdminByUsername(administratorDto.getUsername());
-            Administrator updatedAdministrator = administratorMapper.updateAdministratorFromDTO(administratorDto,
-                    existingAdministrator);
-            administratorsRepository.save(updatedAdministrator);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>("User not found: " + e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (ChangeException e) {
-            return new ResponseEntity<>("Change error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred while processing the request", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public Administrator editAdmin(Administrator administrator, String username) {
 
+        try {
+            Administrator existingAdministrator = getAdminByUsername(username);
+            existingAdministrator.setPatronymic(administrator.getPatronymic());
+            existingAdministrator.setLast_name(administrator.getLast_name());
+            existingAdministrator.setFirst_name(administrator.getFirst_name());
+            administratorsRepository.save(existingAdministrator);
+            return existingAdministrator;
+        } catch (EntityNotFoundException e) {
+            throw new AdministratorNotFoundException("Administrator with username " + username + " not found");
+        } catch (Exception e) {
+            throw new ChangeException("Error editing administrator");
+        }
     }
+
 }

@@ -1,12 +1,9 @@
-package com.classhub.api.model.dto;
+package com.classhub.api.model.dto.Teacher;
 
 import lombok.Data;
 
 @Data
-public class TeacherDto {
-
-    private String username;
-    private String role;
+public class TeacherUpdateDto {
     private String first_name;
     private String last_name;
     private String patronymic;

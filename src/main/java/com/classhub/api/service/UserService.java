@@ -10,8 +10,14 @@ import java.util.Optional;
 public interface UserService {
     Optional<DecodedJWT> signIn(String username, String password);
 
-    User signUpForUser(User user);
+
 
 
     ResponseEntity<Object> getInfoByUsername(String username);
+
+    User signUpForAdmin(User user);
+
+    User signUpForStudent(User user);
+
+    User signUpForTeacher(User user);
 }

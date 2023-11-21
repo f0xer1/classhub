@@ -7,7 +7,6 @@ import com.classhub.api.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -26,12 +25,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public List<Subject> getAllSubject() {
-        try {
             return subjectRepository.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
     }
 
 }

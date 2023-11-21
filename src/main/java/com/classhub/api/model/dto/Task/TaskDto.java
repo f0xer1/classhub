@@ -1,4 +1,4 @@
-package com.classhub.api.model.dto;
+package com.classhub.api.model.dto.Task;
 
 import lombok.Data;
 
@@ -7,5 +7,5 @@ public class TaskDto {
     private Long id;
     private String title;
     private String description;
-    private Long teaching_subject_id;
+    private Long teachingSubjectId;
 }

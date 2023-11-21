@@ -1,4 +1,4 @@
-package com.classhub.api.model.dto;
+package com.classhub.api.model.dto.User;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -15,5 +15,4 @@ public class UserCreationDto {
     @Size(min = 6, max = 32, message = "Enter at least 6 and less than 32 characters")
     private String pwd;
 
-    private String role;
 }

@@ -1,16 +1,14 @@
 package com.classhub.api.service.impl;
 
 import com.classhub.api.exeption.ChangeException;
+import com.classhub.api.exeption.TeacherNotFoundException;
 import com.classhub.api.exeption.UserNotFoundException;
-import com.classhub.api.model.mapper.TeacherMapper;
 import com.classhub.api.model.users.Teacher;
-import com.classhub.api.model.dto.TeacherDto;
 import com.classhub.api.repository.TeachersRepository;
 import com.classhub.api.repository.UserRepository;
 import com.classhub.api.service.TeacherService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,17 +16,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService {
-    private  final TeachersRepository teachersRepository;
-    private  final TeacherMapper teacherMapper;
+    private final TeachersRepository teachersRepository;
     private final UserRepository userRepository;
+
     @Override
-    public ResponseEntity<String> createTeacher(Long id) {
-        try {
+    public void createTeacher(Long id) {
             teachersRepository.save(new Teacher(id));
-        } catch (Exception e) {
-            return new ResponseEntity<>("failed", HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 
     @Override
@@ -38,27 +31,25 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher getTeacherByUsername(String username) {
-        Long id =userRepository.findByUsername(username).get().getId();
-        if (!teachersRepository.existsById(id)) {
-            throw new UserNotFoundException(
-                    "User with username %s not found".formatted(username));
-        }
-        return teachersRepository.findById(id).get();
+        return userRepository.findByUsername(username)
+                .flatMap(user -> teachersRepository.findById(user.getId()))
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User with username %s not found", username)));
     }
 
     @Override
-    public ResponseEntity<String>  editTeacher(TeacherDto teacherDto) {
+    public Teacher editTeacher(Teacher teacher, String username) {
         try {
-            Teacher existingTeacher = getTeacherByUsername(teacherDto.getUsername());
-            Teacher updatedTeacher = teacherMapper.updateTeacherFromDTO(teacherDto, existingTeacher);
-            teachersRepository.save(updatedTeacher);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
-        } catch (UserNotFoundException e) {
-            return new ResponseEntity<>("User not found: " + e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (ChangeException e) {
-            return new ResponseEntity<>("Change error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            Teacher existingTeacher = getTeacherByUsername(username);
+            existingTeacher.setPatronymic(teacher.getPatronymic());
+            existingTeacher.setLast_name(teacher.getLast_name());
+            existingTeacher.setFirst_name(teacher.getFirst_name());
+            teachersRepository.save(existingTeacher);
+            return existingTeacher;
+        } catch (EntityNotFoundException e) {
+            throw new TeacherNotFoundException("Teacher with username " + username + " not found");
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred while processing the request", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ChangeException("Error editing administrator");
         }
 
     }

@@ -1,8 +1,9 @@
 package com.classhub.api.controller;
 
 
-import com.classhub.api.model.dto.TaskDto;
-import com.classhub.api.model.subjects.Task;
+import com.classhub.api.model.dto.Task.TaskCreationDto;
+import com.classhub.api.model.dto.Task.TaskDto;
+import com.classhub.api.model.mapper.TaskMapper;
 import com.classhub.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,19 +17,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+    private  final TaskMapper taskMapper;
 
-    @PostMapping("add")
-    public ResponseEntity<Task> addTask(@RequestBody TaskDto taskDto) {
-        return new ResponseEntity<>(taskService.addTask(taskDto), HttpStatus.CREATED);
+    @PostMapping("/add")
+    public ResponseEntity<TaskDto> addTask(@RequestBody TaskCreationDto taskCreationDto) {
+        var task = taskService.addTask(taskMapper.toTask(taskCreationDto));
+        return new ResponseEntity<>(taskMapper.toTaskDto(task), HttpStatus.CREATED);
     }
 
     @GetMapping("/subject/{id}")
-    public ResponseEntity<List<Task>> getForSubject( @PathVariable Long id) {
-        return new ResponseEntity<>(taskService.findBySubject(id), HttpStatus.OK);
+    public ResponseEntity<List<TaskDto>> getForSubject( @PathVariable Long id) {
+        return new ResponseEntity<>(taskMapper.toTaskDtoList(taskService.findBySubject(id)) , HttpStatus.OK);
     }
-
-
-
-
-
 }

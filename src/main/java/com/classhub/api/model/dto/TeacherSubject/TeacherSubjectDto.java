@@ -1,4 +1,4 @@
-package com.classhub.api.model.dto;
+package com.classhub.api.model.dto.TeacherSubject;
 
 import lombok.Data;
 
