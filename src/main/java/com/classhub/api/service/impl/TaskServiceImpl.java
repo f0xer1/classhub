@@ -1,5 +1,6 @@
 package com.classhub.api.service.impl;
 
+import com.classhub.api.exeption.TeachingSubjectsNotFoundException;
 import com.classhub.api.model.subjects.Task;
 import com.classhub.api.repository.TaskRepository;
 import com.classhub.api.service.TaskService;
@@ -25,7 +26,7 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> findBySubject(Long id) {
         return taskRepository.findByTeachingSubject(
                 teachingSubjectService.findById(id)
-                        .orElseThrow(() -> new IllegalArgumentException("Teaching subject not found with id: " + id))
+                        .orElseThrow(() -> new TeachingSubjectsNotFoundException("Teaching subject not found with id: " + id))
         );
     }
 
