@@ -66,7 +66,7 @@ public class TeacherServiceImpl implements TeacherService {
             return new ArrayList<>(teacher.getVoting());
         } else {
 
-            throw new EntityNotFoundException("Teacher with ID " + teacherId + " not found");
+            throw new TeacherNotFoundException("Teacher with ID " + teacherId + " not found");
         }
     }
 }
