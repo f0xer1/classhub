@@ -1,6 +1,5 @@
 package com.classhub.api.service.impl;
 
-import com.classhub.api.model.dto.TaskDto;
 import com.classhub.api.model.subjects.Task;
 import com.classhub.api.repository.TaskRepository;
 import com.classhub.api.service.TaskService;
@@ -18,13 +17,16 @@ public class TaskServiceImpl implements TaskService {
     private final TeachingSubjectService teachingSubjectService;
 
     @Override
-    public Task addTask(TaskDto taskDto) {
-        return taskRepository.save(mapToTask(taskDto));
+    public Task addTask(Task task) {
+        return taskRepository.save(task);
     }
 
     @Override
     public List<Task> findBySubject(Long id) {
-        return  taskRepository.findByTeachingSubject(teachingSubjectService.findById(id).get());
+        return taskRepository.findByTeachingSubject(
+                teachingSubjectService.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("Teaching subject not found with id: " + id))
+        );
     }
 
     @Override
@@ -32,11 +34,5 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findById(taskId);
     }
 
-    public Task mapToTask(TaskDto taskDto) {
-        Task task = new Task();
-        task.setDescription(taskDto.getDescription());
-        task.setTitle(taskDto.getTitle());
-        task.setTeachingSubject(teachingSubjectService.findById(taskDto.getTeaching_subject_id()).get());
-        return task;
-    }
+
 }

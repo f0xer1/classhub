@@ -1,18 +1,16 @@
 package com.classhub.api.service;
 
 import com.classhub.api.model.users.Student;
-import com.classhub.api.model.dto.StudentDto;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
 public interface StudentService {
-    ResponseEntity<String> createStudent(Long id) ;
+  void createStudent(Long id) ;
     Optional<Student> getStudentById(Long id);
 
     Student getStudentByUsername(String username);
 
-   ResponseEntity<String>  editStudent(StudentDto studentDto);
+   Student  editStudent(Student student, String username);
 
     Optional<Student> findById(Long studentId);
 }

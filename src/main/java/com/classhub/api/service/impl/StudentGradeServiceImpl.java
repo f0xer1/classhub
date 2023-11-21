@@ -1,11 +1,10 @@
 package com.classhub.api.service.impl;
 
-import com.classhub.api.model.dto.StudentGradeDto;
+import com.classhub.api.exeption.StudentGradeNotFoundException;
 import com.classhub.api.model.links.StudentGrade;
 import com.classhub.api.repository.StudentGradeRepository;
 import com.classhub.api.service.StudentGradeService;
 import com.classhub.api.service.StudentService;
-import com.classhub.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +15,20 @@ import java.util.List;
 public class StudentGradeServiceImpl implements StudentGradeService {
     private final StudentGradeRepository studentGradeRepository;
     private final StudentService studentService;
-    private final TaskService taskService;
+
     @Override
-    public String addGrade(StudentGradeDto studentGradeDto) {
-        studentGradeRepository.save(mapToStudentGrade(studentGradeDto));
-        return "ok";
+    public StudentGrade addGrade(StudentGrade studentGrade) {
+        return studentGradeRepository.save(studentGrade);
     }
 
     @Override
     public List<StudentGrade> getGradesForStudent(Long studentId) {
-        return studentGradeRepository.findAllByStudent(studentService.findById(studentId));
+        List<StudentGrade> grades = studentGradeRepository.findAllByStudent(studentService.findById(studentId));
+        if (grades.isEmpty()) {
+            throw new StudentGradeNotFoundException("No grades found for student with id: " + studentId);
+        }
+        return grades;
     }
 
-    public StudentGrade mapToStudentGrade(StudentGradeDto studentGradeDto){
-        StudentGrade studentGrade= new StudentGrade();
-        studentGrade.setGrade(studentGradeDto.getGrade());
-        studentGrade.setStudent(studentService.findById(studentGradeDto.getStudentId()).get());
-        studentGrade.setTask(taskService.findById( studentGradeDto.getTaskId()).get());
-        return studentGrade;
-    }
+
 }

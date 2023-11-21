@@ -32,48 +32,43 @@ public class UserServiceImpl implements UserService {
     private final AdministratorService administratorService;
     private final StudentService studentService;
     private final TeacherService teacherService;
-    private  final AdministratorMapper administratorMapper;
-    private  final StudentMapper studentMapper;
-    private  final TeacherMapper teacherMapper;
+    private final AdministratorMapper administratorMapper;
+    private final StudentMapper studentMapper;
+    private final TeacherMapper teacherMapper;
 
 
-    public User signUpForAdmin(User user) {
-        user.setRole("ROLE_ADMINISTRATOR");
-        userRepository.save(user);
-        administratorService.createAdmin(user.getId());
-        return user;
-    }
-
+    @Override
     public User signUpForStudent(User user) {
+        existsByUsername(user);
         user.setRole("ROLE_STUDENT");
         userRepository.save(user);
         studentService.createStudent(user.getId());
         return user;
     }
 
+    @Override
     public User signUpForTeacher(User user) {
+        existsByUsername(user);
         user.setRole("ROLE_TEACHER");
         userRepository.save(user);
         teacherService.createTeacher(user.getId());
         return user;
     }
 
-
-
     @Override
-    public User signUpForUser(User user) {
+    public User signUpForAdmin(User user) {
+        existsByUsername(user);
+        user.setRole("ROLE_ADMINISTRATOR");
+        userRepository.save(user);
+      administratorService.createAdmin(user.getId());
+        return user;
+    }
+
+    public void existsByUsername(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistsException(
                     "Username %s is already in use".formatted(user.getUsername()));
         }
-        user.setPwd(passwordEncoder.encode(user.getPwd()));
-        String role = user.getRole();
-        return switch (role != null ? role.toLowerCase() : "admin") {
-            case "student" -> signUpForStudent(user);
-            case "teacher" -> signUpForTeacher(user);
-            case "admin"  -> signUpForAdmin(user);
-            default -> throw new RoleNotFoundException("Invalid %s role".formatted(role));
-        };
     }
 
 
@@ -86,11 +81,11 @@ public class UserServiceImpl implements UserService {
             case "ROLE_STUDENT":
                 Student student = studentService.getStudentById(user.getId())
                         .orElseThrow(() -> new StudentNotFoundException("Student not found"));
-                return new ResponseEntity<>(studentMapper.toStudentDTO(student) , HttpStatus.OK);
+                return new ResponseEntity<>(studentMapper.toStudentDTO(student), HttpStatus.OK);
             case "ROLE_TEACHER":
                 Teacher teacher = teacherService.getTeacherById(user.getId())
                         .orElseThrow(() -> new TeacherNotFoundException("Teacher not found"));
-                return new ResponseEntity<>(teacherMapper.toTeacherDto(teacher) , HttpStatus.OK);
+                return new ResponseEntity<>(teacherMapper.toTeacherDto(teacher), HttpStatus.OK);
             case "ROLE_ADMINISTRATOR":
                 Administrator administrator = administratorService.getAdminById(user.getId())
                         .orElseThrow(() -> new AdministratorNotFoundException("Administrator not found"));
@@ -99,6 +94,7 @@ public class UserServiceImpl implements UserService {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @Override
     public Optional<DecodedJWT> signIn(String username, String pwd) {
