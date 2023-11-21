@@ -7,6 +7,7 @@ import com.classhub.api.service.StudentSubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +18,21 @@ import java.util.List;
 public class StudentSubjectController {
     private final StudentSubjectService studentSubjectService;
     private final StudentSubjectMapper studentSubjectMapper;
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
     @PostMapping("add")
     public ResponseEntity<StudentSubjectDto> addStudentSubject(@RequestBody StudentSubjectCreationDto studentSubjectCreationDto) {
         var studentSubject = studentSubjectService.addStudentSubject(
                 studentSubjectMapper.toStudentSubject(studentSubjectCreationDto));
         return new ResponseEntity<>(studentSubjectMapper.toStudentSubjectDto(studentSubject), HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER') or #id == authentication.principal.id")
 
     @GetMapping("/student/{id}")
     public ResponseEntity<List<StudentSubjectDto>> getStudentSubjectForStudent(@PathVariable Long id) {
         return new ResponseEntity<>(studentSubjectMapper.toStudentSubjectDtoList(
                 studentSubjectService.getStudentSubjectForStudent(id)), HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
     @GetMapping("/subject/{id}")
     public ResponseEntity<List<StudentSubjectDto>> getStudentSubjectForSubject(@PathVariable Long id) {
         return new ResponseEntity<>(studentSubjectMapper.toStudentSubjectDtoList(

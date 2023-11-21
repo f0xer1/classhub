@@ -5,6 +5,7 @@ import com.classhub.api.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,16 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SubjectController {
     private final SubjectService subjectService;
-
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
     @PostMapping("/add")
     public ResponseEntity<Subject> addSubject(@RequestBody Subject subject) {
         return new ResponseEntity<>(subjectService.addSubject(subject), HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
     @GetMapping("/all")
     public ResponseEntity<List<Subject>> getAllSubject() {
         return new ResponseEntity<>(subjectService.getAllSubject(), HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
     @GetMapping("/{id}")
     public ResponseEntity<Subject> findById(@PathVariable Long id){
         return ResponseEntity.of(subjectService.findById(id));

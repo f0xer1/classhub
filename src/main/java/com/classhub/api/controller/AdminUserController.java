@@ -12,13 +12,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/admins")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+
 public class AdminUserController {
-    private  final AdministratorService administratorService;
+    private final AdministratorService administratorService;
     private final AdministratorMapper administratorMapper;
     private final UserService userService;
     private final UserMapper userMapper;
@@ -34,11 +37,13 @@ public class AdminUserController {
         var newUser = userService.signUpForTeacher(userMapper.toUser(userDto));
         return new ResponseEntity<>(userMapper.toUserDTO(newUser), HttpStatus.CREATED);
     }
+    @PreAuthorize(" #username == authentication.principal.username")
     @PutMapping("/{username}")
     public ResponseEntity<AdministratorDto> editAdmin(@PathVariable String username, @RequestBody AdministratorUpdateDto updateDto) {
         var admin = administratorService.editAdmin(administratorMapper.toAdministrator(updateDto), username);
         return new ResponseEntity<>(administratorMapper.toAdministratorDTO(admin), HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<AdministratorDto> findById(@PathVariable Long id) {
         return ResponseEntity.of(administratorService.getAdminById(id).map(administratorMapper::toAdministratorDTO));
