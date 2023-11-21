@@ -1,6 +1,7 @@
 package com.classhub.api.service;
 
 import com.classhub.api.model.subjects.TeachingSubject;
+import com.classhub.api.model.users.Student;
 import com.classhub.api.model.users.Teacher;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface TeachingSubjectService {
     List<TeachingSubject> getAllTeachingSubject();
 
     List<Teacher> getTeachersBySubjectId(Long subjectId);
+
+    List<Student> getStudentBySubjectId(Long subjectId);
 }

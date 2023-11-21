@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
@@ -29,11 +28,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
          http
-                .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/create-user").hasRole("ADMINISTRATOR")
-                        .anyRequest().permitAll())
+                 .cors(Customizer.withDefaults())
+                 .csrf(AbstractHttpConfigurer::disable)
+                 .authorizeHttpRequests(request -> request
+                         .requestMatchers("/auth/*").anonymous()
+                         .anyRequest().authenticated())
                  .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
         return http.build();
     }

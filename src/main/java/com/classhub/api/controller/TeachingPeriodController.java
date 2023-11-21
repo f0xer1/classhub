@@ -5,6 +5,7 @@ import com.classhub.api.service.TeachingPeriodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeachingPeriodController {
     private final TeachingPeriodService teachingPeriodService;
-
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
     @PostMapping("/add")
     public ResponseEntity<TeachingPeriod> addTeachingPeriod(@RequestBody TeachingPeriod teachingPeriod) {
         return new ResponseEntity<>(teachingPeriodService.addTeachingPeriod(teachingPeriod), HttpStatus.CREATED);

@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     public User signUpForStudent(User user) {
         existsByUsername(user);
         user.setRole("ROLE_STUDENT");
+        user.setPwd(passwordEncoder.encode(user.getPwd()));
         userRepository.save(user);
         studentService.createStudent(user.getId());
         return user;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
     public User signUpForTeacher(User user) {
         existsByUsername(user);
         user.setRole("ROLE_TEACHER");
+        user.setPwd(passwordEncoder.encode(user.getPwd()));
         userRepository.save(user);
         teacherService.createTeacher(user.getId());
         return user;
@@ -64,6 +66,7 @@ public class UserServiceImpl implements UserService {
     public User signUpForAdmin(User user) {
         existsByUsername(user);
         user.setRole("ROLE_ADMINISTRATOR");
+        user.setPwd(passwordEncoder.encode(user.getPwd()));
         userRepository.save(user);
       administratorService.createAdmin(user.getId());
         return user;
