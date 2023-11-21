@@ -1,11 +1,11 @@
 package com.classhub.api.model.mapper;
 
 
+import com.classhub.api.model.dto.Student.StudentDto;
+import com.classhub.api.model.dto.Student.StudentUpdateDto;
 import com.classhub.api.model.users.Student;
-import com.classhub.api.model.dto.StudentDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
@@ -15,6 +15,6 @@ public interface StudentMapper {
     StudentDto toStudentDTO(Student student);
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
-    Student updateStudentFromDTO(StudentDto studentDto, @MappingTarget Student student);
+    Student toStudent(StudentUpdateDto updateDto);
 
 }
