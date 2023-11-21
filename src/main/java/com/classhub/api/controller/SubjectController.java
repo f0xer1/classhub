@@ -24,5 +24,10 @@ public class SubjectController {
     public ResponseEntity<List<Subject>> getAllSubject() {
         return new ResponseEntity<>(subjectService.getAllSubject(), HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Subject> findById(@PathVariable Long id){
+        return ResponseEntity.of(subjectService.findById(id));
+    }
+
 
 }

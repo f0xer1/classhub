@@ -11,4 +11,5 @@ public interface AdministratorService {
     Administrator getAdminByUsername(String username);
 
    Administrator editAdmin(Administrator administrator, String username);
+
 }

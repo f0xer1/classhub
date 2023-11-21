@@ -3,6 +3,7 @@ package com.classhub.api.service.impl;
 import com.classhub.api.exeption.ChangeException;
 import com.classhub.api.exeption.TeacherNotFoundException;
 import com.classhub.api.exeption.UserNotFoundException;
+import com.classhub.api.model.subjects.TeachingSubject;
 import com.classhub.api.model.users.Teacher;
 import com.classhub.api.repository.TeachersRepository;
 import com.classhub.api.repository.UserRepository;
@@ -11,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,5 +55,18 @@ public class TeacherServiceImpl implements TeacherService {
             throw new ChangeException("Error editing administrator");
         }
 
+    }
+
+    @Override
+    public List<TeachingSubject> getSubjectsByTeacherId(Long teacherId) {
+        Optional<Teacher> teacherOptional = teachersRepository.findById(teacherId);
+
+        if (teacherOptional.isPresent()) {
+            Teacher teacher = teacherOptional.get();
+            return new ArrayList<>(teacher.getVoting());
+        } else {
+
+            throw new EntityNotFoundException("Teacher with ID " + teacherId + " not found");
+        }
     }
 }

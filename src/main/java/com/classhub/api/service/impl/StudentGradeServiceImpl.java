@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,11 @@ public class StudentGradeServiceImpl implements StudentGradeService {
             throw new StudentGradeNotFoundException("No grades found for student with id: " + studentId);
         }
         return grades;
+    }
+
+    @Override
+    public Optional<StudentGrade> findById(Long id) {
+        return studentGradeRepository.findById(id);
     }
 
 

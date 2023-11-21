@@ -20,4 +20,6 @@ public interface UserService {
     User signUpForStudent(User user);
 
     User signUpForTeacher(User user);
+
+    Optional<User> findById(Long id);
 }

@@ -1,7 +1,9 @@
 package com.classhub.api.service.impl;
 
+import com.classhub.api.exeption.TeacherNotFoundException;
 import com.classhub.api.exeption.TeachingSubjectAlreadyExistsException;
 import com.classhub.api.model.subjects.TeachingSubject;
+import com.classhub.api.model.users.Teacher;
 import com.classhub.api.repository.SubjectRepository;
 import com.classhub.api.repository.TeachingPeriodRepository;
 import com.classhub.api.repository.TeachingSubjectRepository;
@@ -9,6 +11,7 @@ import com.classhub.api.service.TeachingSubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,4 +40,17 @@ public class TeachingSubjectServiceImpl implements TeachingSubjectService {
     public List<TeachingSubject> getAllTeachingSubject() {
         return teachingSubjectRepository.findAll();
     }
+
+    @Override
+    public List<Teacher> getTeachersBySubjectId(Long subjectId) {
+        Optional<TeachingSubject> teachingSubjectOptional = teachingSubjectRepository.findById(subjectId);
+        if (teachingSubjectOptional.isPresent()) {
+            TeachingSubject teachingSubject = teachingSubjectOptional.get();
+            return new ArrayList<>(teachingSubject.getTeachers());
+        } else {
+            throw new TeacherNotFoundException("TeachingSubject with ID " + subjectId + " not found");
+        }
+    }
+
+
 }

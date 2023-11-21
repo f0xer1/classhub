@@ -28,6 +28,10 @@ public class StudentGradeController {
     public ResponseEntity<List<StudentGradeDto>> getGradesForStudent(@PathVariable Long id) {
         return new ResponseEntity<>(studentGradeMapper.toStudentGradeDtoList( studentGradeService.getGradesForStudent(id)), HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentGradeDto> findById(@PathVariable Long id){
+        return ResponseEntity.of(studentGradeService.findById(id).map(studentGradeMapper::toStudentGradeDto));
+    }
 
 
 }

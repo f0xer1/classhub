@@ -24,4 +24,8 @@ public class TeachingPeriodController {
     public ResponseEntity<List<TeachingPeriod>> getAllTeachingPeriod() {
         return new ResponseEntity<>(teachingPeriodService.getAllTeachingPeriod(), HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<TeachingPeriod> findById(@PathVariable Long id){
+        return ResponseEntity.of(teachingPeriodService.findById(id));
+    }
 }
