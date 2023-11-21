@@ -30,4 +30,14 @@ public class StudentSubjectController {
         return new ResponseEntity<>(studentSubjectMapper.toStudentSubjectDtoList(
                 studentSubjectService.getStudentSubjectForStudent(id)), HttpStatus.OK);
     }
+    @GetMapping("/subject/{id}")
+    public ResponseEntity<List<StudentSubjectDto>> getStudentSubjectForSubject(@PathVariable Long id) {
+        return new ResponseEntity<>(studentSubjectMapper.toStudentSubjectDtoList(
+                studentSubjectService.getStudentSubjectForSubject(id)), HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentSubjectDto> findById(@PathVariable Long id){
+        return ResponseEntity.of(studentSubjectService.findById(id).map(studentSubjectMapper::toStudentSubjectDto));
+    }
+
 }

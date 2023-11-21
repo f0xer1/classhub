@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +26,10 @@ public class TeachingPeriodServiceImpl implements TeachingPeriodService {
     @Override
     public List<TeachingPeriod> getAllTeachingPeriod() {
             return teachingPeriodRepository.findAll();
+    }
+
+    @Override
+    public Optional<TeachingPeriod> findById(Long id) {
+        return teachingPeriodRepository.findById(id);
     }
 }

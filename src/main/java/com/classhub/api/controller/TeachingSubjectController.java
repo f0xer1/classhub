@@ -1,8 +1,10 @@
 package com.classhub.api.controller;
 
+import com.classhub.api.model.dto.Teacher.TeacherDto;
 import com.classhub.api.model.dto.TeacherSubject.TeacherSubjectDto;
 import com.classhub.api.model.dto.TeachingSubject.TeachingSubjectCreationDto;
 import com.classhub.api.model.dto.TeachingSubject.TeachingSubjectDto;
+import com.classhub.api.model.mapper.TeacherMapper;
 import com.classhub.api.model.mapper.TeachingSubjectMapper;
 import com.classhub.api.service.TeachingSubjectService;
 import com.classhub.api.service.TeachingSubjectsTeachersService;
@@ -21,6 +23,7 @@ public class TeachingSubjectController {
     private final TeachingSubjectsTeachersService teachingSubjectsTeachersService;
 
     private  final TeachingSubjectMapper teachingSubjectMapper;
+    private final TeacherMapper teacherMapper;
 
     @PostMapping("/add")
     public ResponseEntity<TeachingSubjectDto> addTeachingSubject(@RequestBody TeachingSubjectCreationDto teachingSubjectDto) {
@@ -40,4 +43,14 @@ public class TeachingSubjectController {
         teachingSubjectsTeachersService.add(teacherSubjectDto.getTeacherId(), teacherSubjectDto.getSubjectId());
         return new ResponseEntity<>(teacherSubjectDto, HttpStatus.CREATED);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<TeachingSubjectDto> findById(@PathVariable Long id){
+        return ResponseEntity.of(teachingSubjectService.findById(id).map(teachingSubjectMapper::toTeachingSubjectDto));
+    }
+    @GetMapping("/{subjectId}/teachers")
+    public ResponseEntity<List<TeacherDto>> getTeachersBySubjectId(@PathVariable Long subjectId) {
+
+        return ResponseEntity.ok(teacherMapper.toTeacherDtoList(teachingSubjectService.getTeachersBySubjectId(subjectId)) );
+    }
+
 }

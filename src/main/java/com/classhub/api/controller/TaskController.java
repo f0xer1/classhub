@@ -29,4 +29,8 @@ public class TaskController {
     public ResponseEntity<List<TaskDto>> getForSubject( @PathVariable Long id) {
         return new ResponseEntity<>(taskMapper.toTaskDtoList(taskService.findBySubject(id)) , HttpStatus.OK);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskDto> findById(@PathVariable Long id){
+        return ResponseEntity.of(taskService.findById(id).map(taskMapper::toTaskDto));
+    }
 }

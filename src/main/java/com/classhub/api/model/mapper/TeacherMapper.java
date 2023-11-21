@@ -7,6 +7,8 @@ import com.classhub.api.model.users.Teacher;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TeacherMapper {
     @Mapping(source = "user.username", target = "username")
@@ -19,4 +21,5 @@ public interface TeacherMapper {
     Teacher toTeacher(TeacherUpdateDto updateDto);
 
 
+    List<TeacherDto> toTeacherDtoList(List<Teacher> teachersBySubjectId);
 }
