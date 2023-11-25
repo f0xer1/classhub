@@ -19,7 +19,7 @@ public class StudentGradeController {
     private final StudentGradeService studentGradeService;
     private final StudentGradeMapper studentGradeMapper;
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
-    @PostMapping("add")
+    @PostMapping()
     public ResponseEntity<StudentGradeDto> addGrades(@RequestBody StudentGradeCreationDto studentGradeCreationDto) {
         var grade = studentGradeService.addGrade(studentGradeMapper.toStudentGrade(studentGradeCreationDto));
         return new ResponseEntity<>(studentGradeMapper.toStudentGradeDto(grade), HttpStatus.CREATED);

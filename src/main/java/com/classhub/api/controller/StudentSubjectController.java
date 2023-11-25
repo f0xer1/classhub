@@ -19,7 +19,7 @@ public class StudentSubjectController {
     private final StudentSubjectService studentSubjectService;
     private final StudentSubjectMapper studentSubjectMapper;
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
-    @PostMapping("add")
+    @PostMapping()
     public ResponseEntity<StudentSubjectDto> addStudentSubject(@RequestBody StudentSubjectCreationDto studentSubjectCreationDto) {
         var studentSubject = studentSubjectService.addStudentSubject(
                 studentSubjectMapper.toStudentSubject(studentSubjectCreationDto));

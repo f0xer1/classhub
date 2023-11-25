@@ -16,12 +16,12 @@ import java.util.List;
 public class SubjectController {
     private final SubjectService subjectService;
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<Subject> addSubject(@RequestBody Subject subject) {
         return new ResponseEntity<>(subjectService.addSubject(subject), HttpStatus.CREATED);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<Subject>> getAllSubject() {
         return new ResponseEntity<>(subjectService.getAllSubject(), HttpStatus.OK);
     }

@@ -20,7 +20,7 @@ public class TaskController {
     private final TaskService taskService;
     private  final TaskMapper taskMapper;
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<TaskDto> addTask(@RequestBody TaskCreationDto taskCreationDto) {
         var task = taskService.addTask(taskMapper.toTask(taskCreationDto));
         return new ResponseEntity<>(taskMapper.toTaskDto(task), HttpStatus.CREATED);

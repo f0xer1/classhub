@@ -30,7 +30,7 @@ public class TeachingSubjectController {
     private final StudentMapper studentMapper;
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<TeachingSubjectDto> addTeachingSubject(@RequestBody TeachingSubjectCreationDto teachingSubjectDto) {
         var teachingSubject = teachingSubjectService.addTeachingSubject(
                 teachingSubjectMapper.toTeachingSubject(teachingSubjectDto));
@@ -39,7 +39,7 @@ public class TeachingSubjectController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<TeachingSubjectDto>> allTeachingSubject() {
         return new ResponseEntity<>(teachingSubjectMapper.toTeachingSubjectDtoList(teachingSubjectService.getAllTeachingSubject()), HttpStatus.OK);
     }

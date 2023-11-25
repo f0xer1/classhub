@@ -16,12 +16,12 @@ import java.util.List;
 public class TeachingPeriodController {
     private final TeachingPeriodService teachingPeriodService;
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<TeachingPeriod> addTeachingPeriod(@RequestBody TeachingPeriod teachingPeriod) {
         return new ResponseEntity<>(teachingPeriodService.addTeachingPeriod(teachingPeriod), HttpStatus.CREATED);
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<TeachingPeriod>> getAllTeachingPeriod() {
         return new ResponseEntity<>(teachingPeriodService.getAllTeachingPeriod(), HttpStatus.OK);
     }
