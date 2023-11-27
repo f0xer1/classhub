@@ -26,8 +26,4 @@ public class UserController {
     public ResponseEntity<UserDto> findUserById(@PathVariable Long id) {
         return ResponseEntity.of(userService.findById(id).map(userMapper:: toUserDTO));
     }
-
-
-
-
 }
