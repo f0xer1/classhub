@@ -21,6 +21,7 @@ public class StudentController {
     private final StudentService studentService;
     private final StudentMapper studentMapper;
     private final TeachingSubjectMapper teachingSubjectMapper;
+
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') ")
 
     @PutMapping("/{username}")
@@ -28,14 +29,16 @@ public class StudentController {
         var student = studentService.editStudent(studentMapper.toStudent(updateDto), username);
         return new ResponseEntity<>(studentMapper.toStudentDTO(student), HttpStatus.OK);
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
     @GetMapping("/{id}")
     public ResponseEntity<StudentDto> findStudentById(@PathVariable Long id) {
         return ResponseEntity.of(studentService.findById(id).map(studentMapper::toStudentDTO));
-    }@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER') or #studentId == authentication.principal.id ")
-    @GetMapping("/{studentId}/subjects")
-    public ResponseEntity<List<TeachingSubjectDto>> getSubjectsByStudentId(@PathVariable Long studentId) {
-        return ResponseEntity.ok(teachingSubjectMapper.toTeachingSubjectDtoList(studentService.getSubjectsByStudentId(studentId)) );
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER') or #studentId == authentication.principal.id ")
+    @GetMapping("/{studentId}/subjects")
+    public ResponseEntity<List<TeachingSubjectDto>> getSubjectsByStudentId(@PathVariable Long studentId) {
+        return ResponseEntity.ok(teachingSubjectMapper.toTeachingSubjectDtoList(studentService.getSubjectsByStudentId(studentId)));
+    }
 }
