@@ -13,7 +13,7 @@ public interface UserService {
 
 
 
-    ResponseEntity<Object> getInfoByUsername(String username);
+    Object getInfoByUsername(String username);
 
     User signUpForAdmin(User user);
 

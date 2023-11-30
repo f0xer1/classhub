@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResponseEntity<Object> getInfoByUsername(String username) {
+    public Object getInfoByUsername(String username) {
         var user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UserNotFoundException("User with username %s not found".formatted(username))
         );
@@ -89,17 +89,17 @@ public class UserServiceImpl implements UserService {
             case "ROLE_STUDENT":
                 Student student = studentService.getStudentById(user.getId())
                         .orElseThrow(() -> new StudentNotFoundException("Student not found"));
-                return new ResponseEntity<>(studentMapper.toStudentDTO(student), HttpStatus.OK);
+                return studentMapper.toStudentDTO(student);
             case "ROLE_TEACHER":
                 Teacher teacher = teacherService.getTeacherById(user.getId())
                         .orElseThrow(() -> new TeacherNotFoundException("Teacher not found"));
-                return new ResponseEntity<>(teacherMapper.toTeacherDto(teacher), HttpStatus.OK);
+                return  teacherMapper.toTeacherDto(teacher);
             case "ROLE_ADMINISTRATOR":
                 Administrator administrator = administratorService.getAdminById(user.getId())
                         .orElseThrow(() -> new AdministratorNotFoundException("Administrator not found"));
-                return new ResponseEntity<>(administratorMapper.toAdministratorDTO(administrator), HttpStatus.OK);
+                return administratorMapper.toAdministratorDTO(administrator);
             default:
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return null;
         }
     }
 
