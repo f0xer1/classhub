@@ -53,8 +53,10 @@ public interface TeachingSubjectMapper {
 
 
 
-    @Mapping(target = "teachingPeriodId", source = "teachingPeriod.id")
-    @Mapping(target = "subjectId", source = "subject.id")
+    @Mapping(target = "year", source = "teachingPeriod.year")
+    @Mapping(target = "semester", source = "teachingPeriod.semester")
+    @Mapping(target = "name", source = "subject.name")
+    @Mapping(target = "description", source = "subject.description")
     @Mapping(target = "teachers", qualifiedByName = "mapTeachersToIds")
     TeachingSubjectDto toTeachingSubjectDto(TeachingSubject teachingSubject);
 

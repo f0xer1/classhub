@@ -1,7 +1,6 @@
 package com.classhub.api.controller;
 
 import com.classhub.api.model.dto.ExceptionResponse;
-import com.classhub.api.model.dto.Student.StudentDto;
 import com.classhub.api.model.dto.Teacher.TeacherDto;
 import com.classhub.api.model.dto.Teacher.TeacherUpdateDto;
 import com.classhub.api.model.dto.TeachingSubject.TeachingSubjectDto;

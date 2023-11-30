@@ -7,7 +7,9 @@ import java.util.List;
 @Data
 public class TeachingSubjectDto {
     private Long id;
-    private Long subjectId;
-    private Long teachingPeriodId;
     private List<Long> teachers;
+    private String name;
+    private String description;
+    private Integer year;
+    private Integer semester;
 }
