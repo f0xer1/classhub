@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class TeachingSubjectDto {
     private Long id;
-    private List<Long> teachers;
     private String name;
     private String description;
     private Integer year;

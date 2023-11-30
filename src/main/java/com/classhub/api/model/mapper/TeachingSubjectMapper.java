@@ -44,12 +44,6 @@ public interface TeachingSubjectMapper {
         subject.setId(subjectId);
         return subject;
     }
-    @Named("mapTeachersToIds")
-    static List<Long> mapTeachersToIds(Set<Teacher> teachers) {
-        return teachers.stream()
-                .map(Teacher::getId)
-                .collect(Collectors.toList());
-    }
 
 
 
@@ -57,7 +51,6 @@ public interface TeachingSubjectMapper {
     @Mapping(target = "semester", source = "teachingPeriod.semester")
     @Mapping(target = "name", source = "subject.name")
     @Mapping(target = "description", source = "subject.description")
-    @Mapping(target = "teachers", qualifiedByName = "mapTeachersToIds")
     TeachingSubjectDto toTeachingSubjectDto(TeachingSubject teachingSubject);
 
     List<TeachingSubjectDto> toTeachingSubjectDtoList(List<TeachingSubject> allTeachingSubject);
