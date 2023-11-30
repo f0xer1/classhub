@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/student-subject")
+@RequestMapping(path = "/student-subjects")
 @RequiredArgsConstructor
 public class StudentSubjectController {
     private final StudentSubjectService studentSubjectService;
