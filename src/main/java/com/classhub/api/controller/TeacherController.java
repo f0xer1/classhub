@@ -55,7 +55,6 @@ public class TeacherController {
                             schema = @Schema(implementation = TeacherDto.class))),
             @ApiResponse(responseCode = "404", content = @Content)
     })
-    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
     @GetMapping("/{id}")
     public ResponseEntity<TeacherDto> findTeacherById(@PathVariable Long id) {
         return ResponseEntity.of(teacherService.getTeacherById(id).map(teacherMapper::toTeacherDto));
