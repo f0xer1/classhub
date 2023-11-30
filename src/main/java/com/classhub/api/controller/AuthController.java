@@ -26,7 +26,7 @@ public class AuthController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final JWTTokenMapper jwtTokenMapper;
-    @Operation(summary = "Sign up new user", responses = {
+    @Operation(summary = "Sign up new administrator", responses = {
             @ApiResponse(responseCode = "201",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = UserDto.class))),
@@ -42,7 +42,20 @@ public class AuthController {
         var newUser = userService.signUpForAdmin(userMapper.toUser(userDto));
         return new ResponseEntity<>(userMapper.toUserDTO(newUser), HttpStatus.CREATED);
     }
-
+    @Operation(summary = "Sign in user", responses = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = JWTToken.class))),
+            @ApiResponse(responseCode = "400",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = "403",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = "404",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ExceptionResponse.class)))
+    })
     @PostMapping("/sign-in")
     public ResponseEntity<JWTToken> signIn(@RequestBody @Valid UserCreationDto userDto) {
         return ResponseEntity.of(userService
