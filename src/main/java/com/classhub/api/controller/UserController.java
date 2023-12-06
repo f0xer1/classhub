@@ -52,7 +52,7 @@ public class UserController {
         return ResponseEntity.of(userService.findById(id).map(userMapper::toUserDTO));
     }
 
-    @Operation(summary = "Get teaching subject", responses = {
+    @Operation(summary = "Get all users", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             array = @ArraySchema(schema = @Schema(implementation = UserDto.class)))),
@@ -60,7 +60,7 @@ public class UserController {
     })
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
     @GetMapping()
-    public ResponseEntity<List<UserDto>> allTeachingSubject() {
+    public ResponseEntity<List<UserDto>> allUsers() {
         return new ResponseEntity<>(userMapper.toUserDTOList(userService.getAllUsers()), HttpStatus.OK);
     }
 
