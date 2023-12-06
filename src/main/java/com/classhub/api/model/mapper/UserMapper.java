@@ -7,6 +7,8 @@ import com.classhub.api.model.dto.User.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
@@ -16,4 +18,5 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     User toUser(UserCreationDto userDto);
 
+    List<UserDto> toUserDTOList(List<User> allUsers);
 }

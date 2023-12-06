@@ -1,24 +1,25 @@
 package com.classhub.api.controller;
 
-import com.classhub.api.model.dto.Admin.AdministratorDto;
-import com.classhub.api.model.dto.Student.StudentDto;
-import com.classhub.api.model.dto.Teacher.TeacherDto;
+
 import com.classhub.api.model.dto.User.UserDto;
 import com.classhub.api.model.mapper.UserMapper;
 import com.classhub.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -50,4 +51,17 @@ public class UserController {
     public ResponseEntity<UserDto> findUserById(@PathVariable Long id) {
         return ResponseEntity.of(userService.findById(id).map(userMapper::toUserDTO));
     }
+
+    @Operation(summary = "Get teaching subject", responses = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = UserDto.class)))),
+            @ApiResponse(responseCode = "404", content = @Content)
+    })
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
+    @GetMapping()
+    public ResponseEntity<List<UserDto>> allTeachingSubject() {
+        return new ResponseEntity<>(userMapper.toUserDTOList(userService.getAllUsers()), HttpStatus.OK);
+    }
+
 }

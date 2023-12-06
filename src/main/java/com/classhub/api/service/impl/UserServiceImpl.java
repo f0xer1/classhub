@@ -3,6 +3,7 @@ package com.classhub.api.service.impl;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.classhub.api.config.JWTTokenProvider;
 import com.classhub.api.exeption.*;
+import com.classhub.api.model.dto.User.UserDto;
 import com.classhub.api.model.users.Administrator;
 import com.classhub.api.model.mapper.StudentMapper;
 import com.classhub.api.model.mapper.TeacherMapper;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -60,6 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     @Override
