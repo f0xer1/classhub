@@ -30,7 +30,7 @@ public class TeacherController {
     private final TeacherMapper teacherMapper;
     private final TeachingSubjectMapper teachingSubjectMapper;
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or(hasRole('ROLE_ADMINISTRATOR') and #username == authentication.principal.username)")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or(hasRole('ROLE_TEACHER') and #username == authentication.principal.username)")
     @Operation(summary = "Update teacher by username", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -65,7 +65,7 @@ public class TeacherController {
             @ApiResponse(responseCode = "403", content = @Content),
             @ApiResponse(responseCode = "404", content = @Content)
     })
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or(hasRole('ROLE_ADMINISTRATOR') and #teacherId == authentication.principal.id)")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or(hasRole('ROLE_TEACHER') and #teacherId == authentication.principal.id)")
 
     @GetMapping("/{teacherId}/subjects")
     public ResponseEntity<List<TeachingSubjectDto>> getSubjectsByTeacherId(@PathVariable Long teacherId) {

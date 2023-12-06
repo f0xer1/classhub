@@ -2,9 +2,11 @@ package com.classhub.api.service.impl;
 
 import com.classhub.api.exeption.StudentGradeNotFoundException;
 import com.classhub.api.model.links.StudentGrade;
+import com.classhub.api.model.subjects.Task;
 import com.classhub.api.repository.StudentGradeRepository;
 import com.classhub.api.service.StudentGradeService;
 import com.classhub.api.service.StudentService;
+import com.classhub.api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class StudentGradeServiceImpl implements StudentGradeService {
     private final StudentGradeRepository studentGradeRepository;
     private final StudentService studentService;
+    private final TaskService taskService;
 
     @Override
     public StudentGrade addGrade(StudentGrade studentGrade) {
@@ -36,5 +39,15 @@ public class StudentGradeServiceImpl implements StudentGradeService {
         return studentGradeRepository.findById(id);
     }
 
+    @Override
+    public List<StudentGrade> findAllByTaskId(Long id) {
+        Optional<Task> taskOptional = taskService.findById(id);
+
+        if (taskOptional.isPresent()) {
+            return studentGradeRepository.findAllByTask(taskOptional.get());
+        } else {
+            return List.of();
+        }
+    }
 
 }

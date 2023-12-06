@@ -11,4 +11,7 @@ public interface StudentGradeService {
     List<StudentGrade> getGradesForStudent(Long studentId);
 
     Optional<StudentGrade> findById(Long id);
+
+
+    List<StudentGrade> findAllByTaskId(Long id);
 }

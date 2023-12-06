@@ -65,10 +65,8 @@ public class StudentGradeController {
             @ApiResponse(responseCode = "404", content = @Content)
     })
     @PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_TEACHER')")
-    @GetMapping("/{id}")
     public ResponseEntity<StudentGradeDto> findById(@PathVariable Long id) {
         return ResponseEntity.of(studentGradeService.findById(id).map(studentGradeMapper::toStudentGradeDto));
     }
-
 
 }
